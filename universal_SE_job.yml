@@ -1,0 +1,58 @@
+fastq_forward:
+  class: File
+  path: /media/sf_dan/hnscc_samples/sample.fastq
+
+adapter_clip:
+  class: File
+  path: /media/sf_dan/required_files/adapters/TruSeq_index_10_SE.fa
+
+
+# bed_file:
+#   class: File
+#   path: /home/degan/Documents/elective/bed_files/TSCP_94_coverage_+-5.BED
+
+# reference_genome_fasta:
+#   class: File
+#   path: /home/degan/Documents/genome/ucsc.hg19.fasta
+
+# #### Secondary files 
+
+# reference_genome_index:
+#   class: File
+#   path: /home/degan/Documents/genome/ucsc.hg19.fasta.index
+
+# reference_genome_fai:
+#   class: File
+#   path: /home/degan/Documents/genome/ucsc.hg19.fasta.fai
+
+# reference_genome_amb:
+#   class: File
+#   path: /home/degan/Documents/genome/ucsc.hg19.fasta.amb
+
+# reference_genome_ann:
+#   class: File
+#   path: /home/degan/Documents/genome/ucsc.hg19.fasta.ann
+
+# reference_genome_bwt:
+#   class: File
+#   path: /home/degan/Documents/genome/ucsc.hg19.fasta.bwt
+
+# reference_genome_pac:
+#   class: File
+#   path: /home/degan/Documents/genome/ucsc.hg19.fasta.pac
+
+# reference_genome_sa:
+#   class: File
+#   path: /home/degan/Documents/genome/ucsc.hg19.fasta.sa
+
+# strand_bias_script:
+#   class: File
+#   path: /home/degan/Documents/elective/required_files/teststrandbias.R
+
+# var2vcf_script:
+#   class: File
+#   path: /home/degan/Documents/elective/required_files/var2vcf_valid.pl
+
+# blacklist_bed_file:
+#   class: File
+#   path: /home/degan/Documents/elective/bed_files/blacklist.sorted_plus_chr13-SNPs_sorted.bed
