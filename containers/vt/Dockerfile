@@ -16,11 +16,6 @@ RUN apk --update add openjdk8 wget perl bash git make gfortran pcre xz-libs libb
 	&& cd /usr/local/pipeline/vt/vt-0.57721/ \
 	&& make 
 
-RUN addgroup -S pipe \
-	&& adduser -D pipeman -G pipe
-
-USER pipeman
-
 MAINTAINER Daniel Egan daniel.egan1@nhs.net
 
 CMD ["/bin/sh"]

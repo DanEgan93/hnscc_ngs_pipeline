@@ -17,8 +17,8 @@ RUN apk --update add wget perl bash make gfortran pcre xz-libs libbz2 bzip2-dev 
 	&& rm tmp/93.2.tar.gz \
 	&& mv ensembl-vep-release-93.2/ /usr/local/pipeline/ensembl-vep/ \
 	&& cd /usr/local/pipeline/ensembl-vep/ensembl-vep-release-93.2/ \
-	&& perl INSTALL.pl --AUTO --ASSEMBLY GRCh37 --VERSION 93 --CACHEDIR /vep_cache 
-
+	&& perl INSTALL.pl --AUTO a --ASSEMBLY GRCh37 
+	
 Maintainer Daniel Egan daniel.egan1@nhs.net
 
 CMD ["/bin/sh"]
