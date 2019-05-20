@@ -61,5 +61,5 @@ outputs:
     type: stdout
   log_file_stderr:
     type: stderr
-stdout: fastqc_stdout.txt
-stderr: fastqc_stderr.txt
+stdout: bedtools_intersect_stdout.txt
+stderr: bedtools_intersect_stderr.txt

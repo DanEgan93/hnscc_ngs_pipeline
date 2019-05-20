@@ -6,7 +6,7 @@ class: CommandLineTool
 requirements:
   InitialWorkDirRequirement:
     listing:
-     - $(inputs.fastq_forward)
+     - $(inputs.fastq_file)
      - $(inputs.adapter_clip)
   InlineJavascriptRequirement: {}
 
@@ -17,7 +17,7 @@ hints:
 baseCommand: [java, -jar, /usr/local/pipeline/Trimmomatic-0.38/trimmomatic-0.38.jar, SE, -phred33]
 
 inputs:
-  fastq_forward:
+  fastq_file:
     type: File
     inputBinding:
       valueFrom: $(self.basename)
@@ -52,7 +52,7 @@ inputs:
       position: 6
 
 arguments:
-  - valueFrom: $(inputs.fastq_forward.nameroot.split('.fastq')[0]+'.qfilter.fastq.gz')
+  - valueFrom: $(inputs.fastq_file.nameroot.split('.fastq')[0]+'.qfilter.fastq.gz')
     position: 2
 
 
@@ -60,7 +60,7 @@ outputs:
   forward_q_filter_file:
     type: File
     outputBinding: 
-      glob: $(inputs.fastq_forward.nameroot.split('.fastq')[0] + '.qfilter.fastq.gz')
+      glob: $(inputs.fastq_file.nameroot.split('.fastq')[0] + '.qfilter.fastq.gz')
   log_file_stdout:
     type: stdout
   log_file_stderr:

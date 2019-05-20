@@ -6,7 +6,7 @@ class: CommandLineTool
 requirements:
   InitialWorkDirRequirement:
     listing:
-     - $(inputs.sorted_bam)
+     - $(inputs.sorted_bam_file)
   InlineJavascriptRequirement: {}
   ShellCommandRequirement:
     class: string
@@ -18,7 +18,7 @@ hints:
 baseCommand: [/usr/local/pipeline/samtools-1.9/samtools, index]
 
 inputs:
-  sorted_bam:
+  sorted_bam_file:
     type: File
     inputBinding:
       position: 1
@@ -27,7 +27,7 @@ outputs:
   indexed_bam:
     type: File
     outputBinding: 
-      glob: $(inputs.sorted_bam.basename + '.bai') 
+      glob: $(inputs.sorted_bam_file.basename + '.bai') 
   log_file_stdout:
     type: stdout
   log_file_stderr:

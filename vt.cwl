@@ -7,7 +7,7 @@ requirements:
   InitialWorkDirRequirement:
     listing:
      - $(inputs.vcf_blacklist_removed)
-     - $(inputs.reference_genome_fasta)
+     - $(inputs.reference_genome)
      - $(inputs.reference_genome_index)
      - $(inputs.reference_genome_fai)
      - $(inputs.reference_genome_amb)
@@ -58,7 +58,7 @@ inputs:
     default: '-r'
     inputBinding:
       position: 6
-  reference_genome_fasta:
+  reference_genome:
     type: File
     inputBinding:
       valueFrom: $(self.path)

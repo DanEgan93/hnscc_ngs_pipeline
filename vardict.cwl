@@ -9,7 +9,11 @@ requirements:
   # checks for the presents of files in the output(working) directory
   InitialWorkDirRequirement:
     listing:
-     - $(inputs.bwa_reference)
+     - $(inputs.reference_genome)  
+     - $(inputs.sorted_bam_file)
+     - $(inputs.indexed_bam_file)
+     - $(inputs.bed_file)
+     - $(inputs.strand_bias_script)
      - $(inputs.reference_genome_index)
      - $(inputs.reference_genome_fai)
      - $(inputs.reference_genome_amb)
@@ -17,10 +21,6 @@ requirements:
      - $(inputs.reference_genome_bwt)
      - $(inputs.reference_genome_pac)
      - $(inputs.reference_genome_sa)   
-     - $(inputs.bam_file)
-     - $(inputs.indexed_bam_file)
-     - $(inputs.bed_file)
-     - $(inputs.strand_bias_script)
 
   InlineJavascriptRequirement: {}
   ShellCommandRequirement:
@@ -33,28 +33,12 @@ hints:
 baseCommand: [java, -jar, /usr/local/pipeline/VarDict/VarDictJava/build/libs/VarDict-1.6.0.jar]
 
 inputs:
-  bwa_reference:
+  reference_genome:
     type: File
     inputBinding:
       position: 1
       prefix: -G
       separate: True
-
-  reference_genome_index:
-    type: File
-  reference_genome_fai:
-    type: File
-  reference_genome_amb:
-    type: File
-  reference_genome_ann:
-    type: File
-  reference_genome_bwt:
-    type: File
-  reference_genome_pac: 
-    type: File
-  reference_genome_sa:
-    type: File
-
 
   allele_freq:
     type: double
@@ -67,20 +51,18 @@ inputs:
     type: string
     default: 'sample_name'
     inputBinding:
-      valueFrom: $(inputs.bam_file.nameroot.split("_")[0]+'.vcf')
+      valueFrom: $(inputs.sorted_bam_file.nameroot.split("_")[0]+'.vcf')
       position: 3
       prefix: -N
       separate: True
-  bam_file:
+  sorted_bam_file:
     type: File
     inputBinding:
       valueFrom: $(self.basename)
       position: 4
       prefix: -b
       separate: True
-  # secondary file
-  indexed_bam_file:
-    type: File
+
   bed_start_pos:
     type: int
     default: 1
@@ -149,15 +131,35 @@ inputs:
       shellQuote: false
       position: 15
 
+
+  # secondary files
+  indexed_bam_file:
+    type: File
+  reference_genome_index:
+    type: File
+  reference_genome_fai:
+    type: File
+  reference_genome_amb:
+    type: File
+  reference_genome_ann:
+    type: File
+  reference_genome_bwt:
+    type: File
+  reference_genome_pac: 
+    type: File
+  reference_genome_sa:
+    type: File
+
+
 arguments:
-  - valueFrom: $(inputs.bam_file.nameroot.split("_")[0]+'.vcf')
+  - valueFrom: $(inputs.sorted_bam_file.nameroot.split("_")[0]+'.vcf')
     position: 16
 
 outputs:
   vcf_file:
     type: File
     outputBinding: 
-      glob: $(inputs.bam_file.nameroot.split("_")[0]+'.vcf')
+      glob: $(inputs.sorted_bam_file.nameroot.split("_")[0]+'.vcf')
   log_file_stdout:
     type: stdout
   log_file_stderr:
