@@ -12,11 +12,6 @@ RUN yum -y install tbb-devel.x86_64 wget unzip perl \
 	&& wget https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.3.5/bowtie2-2.3.5-linux-x86_64.zip \
 	&& unzip bowtie2-2.3.5-linux-x86_64.zip
 
-RUN addgroup -S pipe \
-    && adduser -D pipeman -G pipe
-
-USER pipeman
-
 
 MAINTAINER Daniel Egan daniel.egan1@nhs.net
 
