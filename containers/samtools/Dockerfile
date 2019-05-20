@@ -17,10 +17,6 @@ RUN apk --update add wget make gcc libc-dev zlib 			zlib-dev ncurses-dev \
 	&& make -C /usr/local/pipeline/samtools-1.9/ \
 	&& cd /
 
-RUN addgroup -S pipe \
-	&& adduser -D pipeman -G pipe
-
-USER pipeman
 
 
 MAINTAINER Daniel Egan daniel.egan1@nhs.net
