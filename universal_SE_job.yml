@@ -1,11 +1,10 @@
 forward:
   class: File
-  path: /media/sf_dan/hnscc_samples/results/sample.qfilter.fastq.gz
+  path: /media/sf_dan/hnscc_samples/results/sample_qfilter.fastq.gz
 
 adapter_clip:
   class: File
   path: /media/sf_dan/required_files/adapters/TruSeq_index_10_SE.fa
-
 
 bed_file:
   class: File
@@ -19,15 +18,37 @@ bowtie_reference:
   class: File
   path: /media/sf_dan/genome/ucsc.hg19.fasta
 
-strand_bias_script:
+#secondary_files
+bowtie2_ref_1:
   class: File
-  path: /home/degan/Documents/elective/required_files/teststrandbias.R
+  path: /media/sf_dan/required_files/human_bowtie_index.1.bt2
+bowtie2_ref_2:
+  class: File
+  path: /media/sf_dan/required_files/human_bowtie_index.2.bt2
+bowtie2_ref_3:
+  class: File
+  path: /media/sf_dan/required_files/human_bowtie_index.3.bt2
+bowtie2_ref_4:
+  class: File
+  path: /media/sf_dan/required_files/human_bowtie_index.4.bt2
+bowtie2_ref_rev_1:
+  class: File
+  path: /media/sf_dan/required_files/human_bowtie_index.rev.1.bt2
+bowtie2_ref_rev_2:
+  class: File
+  path: /media/sf_dan/required_files/human_bowtie_index.rev.2.bt2
 
-var2vcf_script:
-  class: File
-  path: /home/degan/Documents/elective/required_files/var2vcf_valid.pl
 
-blacklist_bed_file:
-  class: File
-  path: /home/degan/Documents/elective/bed_files/blacklist.sorted_plus_chr13-SNPs_sorted.bed
+
+# strand_bias_script:
+#   class: File
+#   path: /home/degan/Documents/elective/required_files/teststrandbias.R
+
+# var2vcf_script:
+#   class: File
+#   path: /home/degan/Documents/elective/required_files/var2vcf_valid.pl
+
+# blacklist_bed_file:
+#   class: File
+#   path: /home/degan/Documents/elective/bed_files/blacklist.sorted_plus_chr13-SNPs_sorted.bed
 
