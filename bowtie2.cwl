@@ -6,67 +6,63 @@ class: CommandLineTool
 requirements:
   InitialWorkDirRequirement:
     listing:
-      - $(inputs.reference_genome_fasta)
       - $(inputs.forward)
-      - $(inputs.reverse)
+      - $(inputs.bowtie2_ref_1)
+      - $(inputs.bowtie2_ref_2)
+      - $(inputs.bowtie2_ref_3)
+      - $(inputs.bowtie2_ref_4)
+      - $(inputs.bowtie2_ref_rev_1)
+      - $(inputs.bowtie2_ref_rev_2)                  
   InlineJavascriptRequirement: {}
-  ShellCommandRequirement:
-    class: 
-
 hints:
   DockerRequirement:
     dockerImageId: bowtie2:latest
 
-baseCommand: [bowtie2-build]
+baseCommand: [bowtie2]
 inputs:
-  bowtie_reference:
-    type: File
-    inputBinding:
-      valueFrom: $(self.basename)
-      position: 1
   ref_name:
     type: string
     default: 'human_bowtie_index'
     inputBinding:
-      position: 2
-  dual_cmd:
-    type: string
-    default: '&&'
-    inputBinding:
-      shellQuote: false
-      position: 3
-  align_cmd:
-    type: string
-    default: 'bowtie2'
-    inputBinding:
-      position: 4
+      position: 1
+      prefix: '-x'
+      separate: True
   forward:
     type: File
     inputBinding:
       valueFrom: $(self.basename)
-      position: 6
-      prefix: '-1'
+      position: 2
+      prefix: '-U'
       separate: True
-  reverse:
+
+  #secondary files
+  bowtie2_ref_1:
     type: File
-    inputBinding:
-      valueFrom: $(self.basename)
-      position: 7
-      prefix: '-2'
-      separate: True
-  s_flag:
-    type: string
-    default: '-S'
-    inputBinding:
-      position: 8
+  bowtie2_ref_2:
+    type: File
+  bowtie2_ref_3:
+    type: File
+  bowtie2_ref_4:
+    type: File
+  bowtie2_ref_rev_1:
+    type: File
+  bowtie2_ref_rev_2:
+    type: File   
 
 arguments:
-  - valueFrom: $('-x '+inputs.ref_name)
-    position: 5
   - valueFrom: $(inputs.forward.nameroot.split("_")[0] + '.sam')
-    position: 9
+    position: 3
+    prefix: '-S'
+    separate: True
 outputs:
   aligned_sam:
     type: File
     outputBinding: 
       glob: $(inputs.forward.nameroot.split("_")[0] + '.sam')
+  log_file_stdout:
+    type: stdout
+  log_file_stderr:
+    type: stderr
+
+stdout: bowtie2_stdout.txt
+stderr: bowtie2_stderr.txt
