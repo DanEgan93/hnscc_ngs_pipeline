@@ -23,16 +23,11 @@ inputs:
       position: 1
       prefix: '-i'
       separate: True
-  cache_cmd:
+  cache_flag:
     type: string
     default: '--cache'
     inputBinding:
       position: 3
-  offline_cmd:
-    type: string
-    default: '--offline'
-    inputBinding:
-      position: 5
   vep_dir:
     type: Directory 
     inputBinding:
@@ -40,6 +35,62 @@ inputs:
       prefix: '--dir_cache'
       separate: True
       valueFrom: $(self.path)
+  offline_flag:
+    type: string
+    default: '--offline'
+    inputBinding:
+      position: 5
+  fork_flag:
+    type: string
+    default: '8'
+    inputBinding:
+      position: 1
+      prefix: '--fork'
+      separate: True
+  symbol_flag:
+    type: string
+    default: '--symbol'
+    inputBinding:
+      position: 7
+  biotype_flag:
+    type: string
+    default: '--biotype'
+    inputBinding:
+      position: 8
+  exon_or_intron_flag:
+    type: string
+    default: '--numbers'
+    inputBinding:
+      position: 9
+  sift_flag:
+    type: string
+    default: 'b'
+    inputBinding:
+      position: 10
+      prefix: '--sift'
+      separate: True
+  polyphen_flag:
+    type: string
+    default: 'b'
+    inputBinding:
+      position: 10
+      prefix: '--polyphen'
+      separate: True
+  clin_sig_flag:
+    type: string
+    default: '--check_existing'
+    inputBinding:
+      position: 12
+  pubmed_flag:
+    type: string
+    default: '--pubmed'
+    inputBinding:
+      position: 14
+  regulatory_flag:
+    type: string
+    default: '--regulatory'
+    inputBinding:
+      position: 15
 
 arguments:
   - valueFrom: $(inputs.vcf_normalized.basename.split('.normalized')[0]+'.vep.vcf')
@@ -53,13 +104,9 @@ outputs:
     outputBinding:
       glob: $(inputs.vcf_normalized.basename.split('.normalized')[0]+'.vep.vcf')
   html_file:
-    type: File
+    type: File?
     outputBinding:
       glob: $(inputs.vcf_normalized.basename.split('.normalized')[0]+'.vep.vcf_summary.html')
-  warning_file:
-    type: File
-    outputBinding:
-      glob: $(inputs.vcf_normalized.basename.split('.normalized')[0]+'.vep.vcf_warnings.txt')
   log_file_stdout:
     type: stdout
   log_file_stderr:
