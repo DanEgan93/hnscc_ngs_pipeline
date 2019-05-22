@@ -50,7 +50,7 @@ inputs:
     type: File   
 
 arguments:
-  - valueFrom: $(inputs.fastq_file.nameroot.split("_")[0] + '.sam')
+  - valueFrom: $(inputs.fastq_file.nameroot.split(".qfilter.")[0] + '.sam')
     position: 3
     prefix: '-S'
     separate: True
@@ -58,7 +58,7 @@ outputs:
   aligned_sam:
     type: File
     outputBinding: 
-      glob: $(inputs.fastq_file.nameroot.split("_")[0] + '.sam')
+      glob: $(inputs.fastq_file.nameroot.split(".qfilter.")[0] + '.sam')
   log_file_stdout:
     type: stdout
   log_file_stderr:

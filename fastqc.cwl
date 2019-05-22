@@ -19,11 +19,11 @@ inputs:
       valueFrom: $(self.basename)
       position: 1
 outputs:
-  forward_html_file:
+  fastq_html_file:
     type: File
     outputBinding:
       glob: $(inputs.fastq_file.nameroot.split(".fastq")[0] + '_fastqc' + '.html')
-  forward_zip_file:
+  fastq_zip_file:
     type: File
     outputBinding:
       glob: $(inputs.fastq_file.nameroot.split(".fastq")[0] + '_fastqc' + '.zip')

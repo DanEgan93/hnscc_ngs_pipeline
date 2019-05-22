@@ -20,7 +20,8 @@ requirements:
      - $(inputs.reference_genome_ann)
      - $(inputs.reference_genome_bwt)
      - $(inputs.reference_genome_pac)
-     - $(inputs.reference_genome_sa)   
+     - $(inputs.reference_genome_sa)  
+     - $(inputs.var2vcf_script) 
 
   InlineJavascriptRequirement: {}
   ShellCommandRequirement:
@@ -51,7 +52,7 @@ inputs:
     type: string
     default: 'sample_name'
     inputBinding:
-      valueFrom: $(inputs.sorted_bam_file.nameroot.split("_")[0]+'.vcf')
+      valueFrom: $(inputs.sorted_bam_file.nameroot.split(".sorted.")[0]+'.vcf')
       position: 3
       prefix: -N
       separate: True
@@ -152,14 +153,14 @@ inputs:
 
 
 arguments:
-  - valueFrom: $(inputs.sorted_bam_file.nameroot.split("_")[0]+'.vcf')
+  - valueFrom: $(inputs.sorted_bam_file.nameroot.split(".sorted.bam")[0]+'.vcf')
     position: 16
 
 outputs:
   vcf_file:
     type: File
     outputBinding: 
-      glob: $(inputs.sorted_bam_file.nameroot.split("_")[0]+'.vcf')
+      glob: $(inputs.sorted_bam_file.nameroot.split(".sorted.bam")[0]+'.vcf')
   log_file_stdout:
     type: stdout
   log_file_stderr:

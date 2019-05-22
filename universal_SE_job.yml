@@ -1,24 +1,13 @@
-forward:
+fastq_file:
   class: File
-  path: /media/sf_dan/hnscc_samples/results/sample_qfilter.fastq.gz
+  path: /media/sf_dan/hnscc_samples/DHS-Cathy_sub_file.fastq
 
 adapter_clip:
   class: File
   path: /media/sf_dan/required_files/adapters/TruSeq_index_10_SE.fa
 
-bed_file:
-  class: File
-  path: /home/degan/Documents/elective/bed_files/TSCP_94_coverage_+-5.BED
 
-reference_genome_fasta:
-  class: File
-  path: /media/sf_dan/genome/ucsc.hg19.fasta
-
-bowtie_reference:
-  class: File
-  path: /media/sf_dan/genome/ucsc.hg19.fasta
-
-#secondary_files
+#bowtie2 ref files
 bowtie2_ref_1:
   class: File
   path: /media/sf_dan/required_files/human_bowtie_index.1.bt2
@@ -38,17 +27,52 @@ bowtie2_ref_rev_2:
   class: File
   path: /media/sf_dan/required_files/human_bowtie_index.rev.2.bt2
 
+# variant calling
+reference_genome:
+  class: File
+  path: /media/sf_dan/genome/ucsc.hg19.fasta
+# secondary files
+reference_genome_index:
+  class: File
+  path: /media/sf_dan/genome/ucsc.hg19.fasta.index
 
+reference_genome_fai:
+  class: File
+  path: /media/sf_dan/genome/ucsc.hg19.fasta.fai
 
-# strand_bias_script:
-#   class: File
-#   path: /home/degan/Documents/elective/required_files/teststrandbias.R
+reference_genome_amb:
+  class: File
+  path: /media/sf_dan/genome/ucsc.hg19.fasta.amb
 
-# var2vcf_script:
-#   class: File
-#   path: /home/degan/Documents/elective/required_files/var2vcf_valid.pl
+reference_genome_ann:
+  class: File
+  path: /media/sf_dan/genome/ucsc.hg19.fasta.ann
 
-# blacklist_bed_file:
-#   class: File
-#   path: /home/degan/Documents/elective/bed_files/blacklist.sorted_plus_chr13-SNPs_sorted.bed
+reference_genome_bwt:
+  class: File
+  path: /media/sf_dan/genome/ucsc.hg19.fasta.bwt
+
+reference_genome_pac:
+  class: File
+  path: /media/sf_dan/genome/ucsc.hg19.fasta.pac
+
+reference_genome_sa:
+  class: File
+  path: /media/sf_dan/genome/ucsc.hg19.fasta.sa
+
+bed_file:
+  class: File
+  path: /media/sf_dan/required_files/gosia-ATAC-Cathy_S5_L002_R1_0.nuclear.sorted.bam.default.s200.minDist400.v-peaks.bed
+
+strand_bias_script:
+  class: File
+  path: /media/sf_dan/required_files/teststrandbias.R
+
+var2vcf_script:
+  class: File
+  path: /media/sf_dan/required_files/var2vcf_valid.pl
+
+blacklist_bed_file:
+  class: File
+  path: /media/sf_dan/required_files/blacklist.sorted_plus_chr13-SNPs_sorted.bed
 

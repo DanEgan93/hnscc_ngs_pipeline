@@ -6,7 +6,7 @@ class: CommandLineTool
 requirements:
   InitialWorkDirRequirement:
     listing:
-     - $(inputs.input_file)
+     - $(inputs.sam_file)
   InlineJavascriptRequirement: {}
 
 hints:
@@ -23,7 +23,7 @@ inputs:
       position: 1
       prefix: '-O'
       separate: True
-  input_file:
+  sam_file:
     type: File
     inputBinding:
       position: 4
@@ -34,14 +34,14 @@ inputs:
       position: 2
 
 arguments:
-  - valueFrom: $(inputs.input_file.nameroot+'_sorted.bam')
+  - valueFrom: $(inputs.sam_file.nameroot+'.sorted.bam')
     position: 3
 
 outputs:
   sorted_bam:
     type: File
     outputBinding: 
-      glob: $(inputs.input_file.nameroot +'_sorted.bam')
+      glob: $(inputs.sam_file.nameroot +'.sorted.bam')
   log_file_stdout:
     type: stdout
   log_file_stderr:

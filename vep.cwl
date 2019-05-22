@@ -23,28 +23,28 @@ inputs:
       position: 1
       prefix: '-i'
       separate: True
-  cache_flag:
-    type: string
-    default: '--cache'
-    inputBinding:
-      position: 3
-  vep_dir:
-    type: Directory 
-    inputBinding:
-      position: 4
-      prefix: '--dir_cache'
-      separate: True
-      valueFrom: $(self.path)
   offline_flag:
     type: string
     default: '--offline'
     inputBinding:
+      position: 3
+  cache_flag:
+    type: string
+    default: '--cache'
+    inputBinding:
+      position: 4
+  vep_dir:
+    type: Directory 
+    inputBinding:
       position: 5
+      prefix: '--dir_cache'
+      separate: True
+      valueFrom: $(self.path)
   fork_flag:
     type: string
-    default: '8'
+    default: '1'
     inputBinding:
-      position: 1
+      position: 6
       prefix: '--fork'
       separate: True
   symbol_flag:
@@ -73,7 +73,7 @@ inputs:
     type: string
     default: 'b'
     inputBinding:
-      position: 10
+      position: 11
       prefix: '--polyphen'
       separate: True
   clin_sig_flag:
@@ -85,12 +85,12 @@ inputs:
     type: string
     default: '--pubmed'
     inputBinding:
-      position: 14
+      position: 13
   regulatory_flag:
     type: string
     default: '--regulatory'
     inputBinding:
-      position: 15
+      position: 14
 
 arguments:
   - valueFrom: $(inputs.vcf_normalized.basename.split('.normalized')[0]+'.vep.vcf')

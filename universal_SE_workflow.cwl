@@ -3,11 +3,16 @@
 cwlVersion: v1.0
 class: Workflow
 
-inputs: 
-  fastq_forward: File
-  fastq_reverse: File
+inputs:
+  fastq_file: File
   adapter_clip: File
-  reference_genome_fasta: File 
+  bowtie2_ref_1: File
+  bowtie2_ref_2: File
+  bowtie2_ref_3: File
+  bowtie2_ref_4: File
+  bowtie2_ref_rev_1: File
+  bowtie2_ref_rev_2: File
+  reference_genome: File
   reference_genome_index: File 
   reference_genome_fai: File 
   reference_genome_amb: File 
@@ -19,23 +24,17 @@ inputs:
   strand_bias_script: File
   var2vcf_script: File
   blacklist_bed_file: File
+  
+
 
 outputs:
-
-# FASTQC outputs 
-
-  fastqc_forward_html_report:
+# FASTQC_outputs
+  fastqc_html_report:
     type: File
-    outputSource: fastqc_report/forward_html_file
-  fastqc_reverse_html_report:
+    outputSource: fastqc_report/fastq_html_file
+  fastqc_zip_file:
     type: File
-    outputSource: fastqc_report/reverse_html_file
-  fastqc_forward_zip_file:
-    type: File
-    outputSource: fastqc_report/forward_zip_file
-  fastqc_reverse_zip_file:
-    type: File
-    outputSource: fastqc_report/reverse_zip_file
+    outputSource: fastqc_report/fastq_zip_file
   fastqc_std_out:
     type: File
     outputSource: fastqc_report/log_file_stdout
@@ -43,75 +42,62 @@ outputs:
     type: File
     outputSource: fastqc_report/log_file_stderr
 
-# Trimmomatic outputs 
-
-  trimmomatic_forward_unpaired:
+# Trimmomatic_outputs
+  trimmomatic_fastq_q_filter_file:
     type: File
-    outputSource: trim_adapters/forward_u_filter_file
-  trimmomatic_forward_q_filter:
-    type: File
-    outputSource: trim_adapters/forward_q_filter_file
-  trimmomatic_reverse_unpaired:
-    type: File
-    outputSource: trim_adapters/reverse_u_filter_file
-  trimmomatic_reverse_q_filter:
-    outputSource: trim_adapters/reverse_q_filter_file
-    type: File
-  trimmomaitc_std_out:
+    outputSource: trim_adapters/fastq_q_filter_file
+  trimmomatic_log_file_stdout:
     type: File
     outputSource: trim_adapters/log_file_stdout
-  trimmomatic_std_err:
+  trimmomatic_log_file_stderr:
     type: File
     outputSource: trim_adapters/log_file_stderr
 
-# Bowtie2 outputs 
-
-  bowtie2_aligned_bam_file:
+#bowtie2
+  bowtie2_sam_file:
     type: File
-    outputSource: align/aligned_bam
-  bowtie2_std_out:
+    outputSource: align/aligned_sam
+  bowtie2_log_file_std_out:
     type: File
     outputSource: align/log_file_stdout
-  bowtie2_srd_err:
+  bowtie2_log_file_std_err:
     type: File
-    outputSource: align/log_file_stderr
+    outputSource: align/log_file_stderr  
 
-
-# sam_sort 
-  sam_sort_bam_file:
+# samtools_sort
+  samtools_sort_sorted_bam:
     type: File
     outputSource: sort/sorted_bam
-  sam_sort_std_out:
+  samtools_sort_log_file_std_out:
     type: File
     outputSource: sort/log_file_stdout
-  sam_sort_std_err:
+  samtools_sort_log_file_std_err:
     type: File
     outputSource: sort/log_file_stderr
 
-# sam_index 
-  sam_index_bam_file:
+# samtools_index
+  samtools_index_indexed_bam:
     type: File
     outputSource: index/indexed_bam
-  sam_index_std_out:
+  samtools_index_log_file_std_out:
     type: File
     outputSource: index/log_file_stdout
-  sam_index_std_err:
+  samtools_index_log_file_std_err:
     type: File
     outputSource: index/log_file_stderr
 
-
-# variant calling (vardict) 
+# vardict
   vardict_vcf_file:
     type: File
     outputSource: variant_calling/vcf_file
-  vardict_std_out:
+  vardict_log_file_std_out:
     type: File
     outputSource: variant_calling/log_file_stdout
-  vardict_std_err:
+  vardict_log_file_std_err:
     type: File
     outputSource: variant_calling/log_file_stderr
 
-# Remove blacklisted regions 
+# Removing blacklisted regions 
   vcf_file_blacklist_removed:
     type: File
     outputSource: remove_blacklisted_regions/vcf_file_blacklist_removed
@@ -121,6 +107,7 @@ outputs:
   bedtools_std_err:
     type: File
     outputSource: remove_blacklisted_regions/log_file_stderr
+
 
 # normalize with VT
   normalized_vcf:
@@ -138,48 +125,57 @@ steps:
   fastqc_report:
     run: fastqc.cwl
     in:
-      fastq_forward:
-        source: fastq_forward
-      fastq_reverse:
-        source: fastq_reverse
-    out: [forward_html_file, reverse_html_file, forward_zip_file, reverse_zip_file, log_file_stdout, log_file_stderr]
+      fastq_file:
+        source: fastq_file
+    out: [fastq_html_file, fastq_zip_file, log_file_stdout, log_file_stderr]
+
   trim_adapters:
-    run: trimmomatic_PE.cwl
+    run: trimmomatic_SE.cwl
     in:
-      fastq_forward:
-        source: fastq_forward
-      fastq_reverse:
-        source: fastq_reverse
+      fastq_file:
+        source: fastq_file
       adapter_clip:
         source: adapter_clip
-    out: [forward_u_filter_file, forward_q_filter_file, reverse_u_filter_file, reverse_q_filter_file, log_file_stdout, log_file_stderr]
+    out: [fastq_q_filter_file, log_file_stdout, log_file_stderr]
+
   align:
     run: bowtie2.cwl
     in:
-      bowtie_reference:
-        source: reference_genome_fasta
-      forward:
-        source: trim_adapters/forward_q_filter_file
-      reverse:
-        source: trim_adapters/reverse_q_filter_file
-    out: [aligned_bam, log_file_stdout, log_file_stderr]
+       bowtie2_ref_1:
+         source: bowtie2_ref_1
+       bowtie2_ref_2:
+         source: bowtie2_ref_2
+       bowtie2_ref_3:
+         source: bowtie2_ref_3
+       bowtie2_ref_4:
+         source: bowtie2_ref_4
+       bowtie2_ref_rev_1:
+         source: bowtie2_ref_rev_1
+       bowtie2_ref_rev_2:
+         source: bowtie2_ref_rev_2
+       fastq_file:
+         source: trim_adapters/fastq_q_filter_file
+    out: [aligned_sam, log_file_stdout, log_file_stderr]
+
   sort:
     run: samtools_sort.cwl
     in:
-      bam_file:
-        source: align/aligned_bam
+      sam_file:
+        source: align/aligned_sam
     out: [sorted_bam, log_file_stdout, log_file_stderr]
-  index:
+
+  index: 
     run: samtools_index.cwl
     in:
-      sorted_bam:
+      sorted_bam_file:
         source: sort/sorted_bam
     out: [indexed_bam, log_file_stdout, log_file_stderr]
+
   variant_calling:
     run: vardict.cwl
     in:
-      bwa_reference:
-        source: reference_genome_fasta
+      reference_genome:
+        source: reference_genome
       reference_genome_index:
         source: reference_genome_index
       reference_genome_fai:
@@ -194,17 +190,18 @@ steps:
         source: reference_genome_pac
       reference_genome_sa:
         source: reference_genome_sa
-      bam_file:
+      sorted_bam_file:
         source: sort/sorted_bam
       indexed_bam_file:
         source: index/indexed_bam
       bed_file:
         source: bed_file
       strand_bias_script:
-        source: strand_bias_script
+        source: strand_bias_script      
       var2vcf_script:
         source: var2vcf_script
-    out: [vcf_file, log_file_stdout, log_file_stderr]
+    out: [vcf_file, log_file_stdout,log_file_stderr]
+
   remove_blacklisted_regions:
     run: remove_blacklist.cwl
     in:
@@ -213,13 +210,14 @@ steps:
       blacklist_bed_file:
         source: blacklist_bed_file
     out: [vcf_file_blacklist_removed, log_file_stdout, log_file_stderr] 
+
   normalize_vcf:
     run: vt.cwl
     in:
       vcf_blacklist_removed:
         source: remove_blacklisted_regions/vcf_file_blacklist_removed
-      reference_genome_fasta:
-        source: reference_genome_fasta
+      reference_genome:
+        source: reference_genome
       reference_genome_index:
         source: reference_genome_index
       reference_genome_fai:

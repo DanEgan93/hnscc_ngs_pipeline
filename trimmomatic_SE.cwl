@@ -57,7 +57,7 @@ arguments:
 
 
 outputs:
-  forward_q_filter_file:
+  fastq_q_filter_file:
     type: File
     outputBinding: 
       glob: $(inputs.fastq_file.nameroot.split('.fastq')[0] + '.qfilter.fastq.gz')
